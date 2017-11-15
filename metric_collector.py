@@ -22,6 +22,7 @@ OUT_HDLR.setLevel(logging.INFO)
 LOGGER.addHandler(OUT_HDLR)
 LOGGER.setLevel(logging.INFO)
 
+DELAY = 30
 
 def _convert_graphite_to_tags(metric):
     tags = []
@@ -81,7 +82,7 @@ class MetricCollector(object):
                         len(all_metrics), time.time() - start_time)
         else:
             LOGGER.info("no metrics received")
-        threading.Timer(60, self._send_metrics).start()
+        threading.Timer(DELAY, self._send_metrics).start()
 
 
 if __name__ == '__main__':

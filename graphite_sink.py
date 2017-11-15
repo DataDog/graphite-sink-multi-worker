@@ -29,6 +29,7 @@ REDIS_PORT = 6379
 
 METRIC_STORE = {}
 METRIC_COUNT = 0
+DELAY = 15
 
 
 def get_and_clear_store():
@@ -55,7 +56,7 @@ class GraphiteServer(TCPServer):
         conn.set("metrics_" + str(self.uid) + "_" + str(start_time), json.dumps(temp_store))
         LOGGER.info("sent %r metrics with %r unique names in %r seconds\n",
                     count, len(temp_store), time.time() - start_time)
-        threading.Timer(10, self.queue_metrics).start()
+        threading.Timer(DELAY, self.queue_metrics).start()
 
     def handle_stream(self, stream, address):
         GraphiteConnection(stream, address)
